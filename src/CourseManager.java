@@ -12,7 +12,7 @@ public class CourseManager {
         pendingCourses.add(course);
     }
 
-    // 과목 폐강 요청 -> 있어야 할까?
+    // 과목 폐강 요청
     public void requestCloseCourse(String courseId) {
         for (Course course : pendingCourses) {
             if (course.getCourseId().equals(courseId)) {
