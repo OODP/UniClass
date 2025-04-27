@@ -13,9 +13,14 @@ public class CourseManager {
     }
 
     // 과목 폐강 요청 -> 있어야 할까?
-//    public void requestCloseCourse(String courseId) {
-//
-//    }
+    public void requestCloseCourse(String courseId) {
+        for (Course course : pendingCourses) {
+            if (course.getCourseId().equals(courseId)) {
+                pendingCourses.remove(course);
+                break;
+            }
+        }
+    }
 
     // 과목 개설
     public void openCourse(String courseId) {
