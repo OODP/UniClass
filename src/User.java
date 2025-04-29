@@ -12,6 +12,10 @@ abstract public class User {
         this.uniqueId = uniqueId;
     }
 
+    //메뉴 보여주기
+    public abstract void showMenu();
+
+
     public String getId() {
         return id;
     }
@@ -42,4 +46,6 @@ abstract public class User {
     public void signUp() {
         // Implement registration logic here
     }
+
+
 }
