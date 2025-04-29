@@ -50,10 +50,12 @@ public class CourseManager {
         }
     }
 
+    // 개설 대기중인 과목 조회
     public List<Course> getPendingCourses() {
         return pendingCourses;
     }
 
+    // 개설된 과목 조회
     public List<Course> getOpenedCourses() {
         return openedCourses;
     }
