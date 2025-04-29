@@ -15,6 +15,7 @@ abstract public class User {
     //메뉴 보여주기
     public abstract void showMenu();
 
+
     public String getId() {
         return id;
     }

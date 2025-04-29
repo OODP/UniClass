@@ -8,30 +8,34 @@ public class Staff extends User {
 
     @Override
     public void showMenu() {
-        System.out.println("Hello Staff!");
-        System.out.println("1. View Courses");
-        System.out.println("2. Manage Students");
-        System.out.println("3. View Grades");
-        System.out.println("4. Logout");
-
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
+        while(true){
+            System.out.println("1. 개설 허락할 과목 선택");
+            System.out.println("2. 개설 불허할 과목 선택");
+            System.out.println("3. 개설 요청 과목 목록 보기");
+            System.out.print("4. Logout\n=> ");
 
-        switch (choice) {
-            case 1:
-                System.out.println("Viewing Courses...");
-                break;
-            case 2:
-                System.out.println("Managing Students...");
-                break;
-            case 3:
-                System.out.println("Viewing Grades...");
-                break;
-            case 4:
-                System.out.println("Logging out...");
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("리스트 보여주고, 개설 허락할 과목 선택...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 2:
+                    System.out.println("리스트 보여주고, 개설 불허할 과목 선택...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 3:
+                    System.out.println("개설 요청 과목 목록 보기...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 4:
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
     }
 }

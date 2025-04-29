@@ -8,26 +8,49 @@ public class Student extends User {
 
     @Override
     public void showMenu() {
-        System.out.println("Hello Student!");
-        System.out.println("1. View Courses");
-        System.out.println("2. View Grades");
-        System.out.println("3. Logout");
-
         Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
+        while(true){
+            System.out.print("1. 수강 신청, ");
+            System.out.println("2. 수강 신청 취소");
+            System.out.print("3. 예비 수강 신청, ");
+            System.out.println("4. 예비 수강 신청 취소");
+            System.out.print("5. 수강 대기 신청, ");
+            System.out.println("6. 수강 대기 신청 취소");
+            System.out.print("7. Logout\n=> ");
 
-        switch (choice) {
-            case 1:
-                System.out.println("Viewing Courses...");
-                break;
-            case 2:
-                System.out.println("Viewing Grades...");
-                break;
-            case 3:
-                System.out.println("Logging out...");
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("1. 수강 신청...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 2:
+                    System.out.println("2. 수강 신청 취소...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 3:
+                    System.out.println("3. 예비 수강 신청...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 4:
+                    System.out.println("4. 예비 수강 신청 취소...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 5:
+                    System.out.println("5. 수강 대기 신청...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 6:
+                    System.out.println("6. 수강 대기 신청 취소...");
+                    System.out.println("----------------------------------------");
+                    break;
+                case 7:
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
     }
 }
