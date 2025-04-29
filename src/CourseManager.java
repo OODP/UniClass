@@ -3,8 +3,8 @@ import java.util.List;
 
 public class CourseManager {
 
-    private final List<Course> pendingCourses = new ArrayList<>(); // 개설 검토중인 과목 리스트
-    private final List<Course> openedCourses = new ArrayList<>(); // 개설된 과목 리스트
+    private static final List<Course> pendingCourses = new ArrayList<>(); // 개설 검토중인 과목 리스트
+    private static final List<Course> openedCourses = new ArrayList<>(); // 개설된 과목 리스트
 
     // 과목 개설 요청
     public void requestOpenCourse(String courseId, String courseName, int credit, int participants, Professor professor) {
