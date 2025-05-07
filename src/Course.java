@@ -1,5 +1,6 @@
 import java.util.List;
 
+
 public class Course {
 
     private final String courseId;
