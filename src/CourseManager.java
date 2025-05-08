@@ -88,14 +88,14 @@ public class CourseManager {
     //수강 취소 -> 학생
     public  void cancelCourse(Student student){
         Scanner sc = new Scanner(System.in);
-        List<Course> myCourseList = student.getMyCourseList();
+        List<Course> myCourseList = student.viewMyCourseList();
 
         System.out.print(" - 수강 취소할 과목 코드 입력: ");
         String courseId = sc.next();
 
         for (Course course : myCourseList) {
             if (course.getCourseId().equals(courseId)) {
-                student.getMyCourseList().remove(course);
+                student.viewMyCourseList().remove(course);
                 break;
             }
         }
@@ -104,7 +104,7 @@ public class CourseManager {
 
     //수강 과목 조회 -> 학생
     void showCourseList(Student student) {
-        student.getMyCourseList();
+        student.viewMyCourseList();
     }
 
     // 개설된 과목 조회 -> 전체 메뉴

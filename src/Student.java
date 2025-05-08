@@ -12,7 +12,7 @@ public class Student extends User {
         super(id, password, name, uniqueId);
     }
 
-    public List<Course> getMyCourseList() {
+    public List<Course> viewMyCourseList() {
         if(myCourseList.isEmpty()) {
             System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
             return null;
@@ -22,6 +22,10 @@ public class Student extends User {
             System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
                     " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
         }
+        return myCourseList;
+    }
+
+    public List<Course> getMyCourseList() {
         return myCourseList;
     }
 
