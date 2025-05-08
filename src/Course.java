@@ -18,6 +18,7 @@ public class Course {
         this.professor = professor;
     }
 
+    //getter
     public String getCourseId() {
         return courseId;
     }
@@ -33,6 +34,8 @@ public class Course {
     public int getParticipants() {
         return participants;
     }
+
+    //setter
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }

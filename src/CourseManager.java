@@ -16,13 +16,14 @@ public class CourseManager {
         openedCourses.add(course2);
     }
 
-    // 과목 개설 요청
+    // --------------------Iteration 1 -------------------
+    // 과목 개설 요청 -> 교수님
     public void requestOpenCourse(String courseId, String courseName, int credit, int participants, Professor professor) {
         Course course = new Course(courseId, courseName, credit, participants, professor);
         pendingCourses.add(course);
     }
 
-    // 과목 폐강 요청
+    // 과목 폐강 요청 -> 교수님
     public void requestCloseCourse(String courseId) {
         for (Course course : pendingCourses) {
             if (course.getCourseId().equals(courseId)) {
@@ -32,7 +33,7 @@ public class CourseManager {
         }
     }
 
-    // 과목 개설
+    // 과목 개설 -> 교직원
     public void openCourse(String courseId) {
         for (Course course : pendingCourses) {
             if (course.getCourseId().equals(courseId)) {
@@ -43,12 +44,12 @@ public class CourseManager {
         }
     }
 
-    // 과목 폐강
+    // 과목 폐강 -> 교직원
     public void closeCourse(String courseId) {
         openedCourses.removeIf(course -> course.getCourseId().equals(courseId));
     }
 
-    // 과목 수정
+    // 과목 수정 ->  교수님
     public void modifyCourse(String courseId, String newCourseName, int newCredit, int newParticipants) {
         for (Course course : openedCourses) {
             if (course.getCourseId().equals(courseId)) {
@@ -60,63 +61,63 @@ public class CourseManager {
         }
     }
 
-    // 개설 대기중인 과목 조회
+    // 개설 대기중인 과목 조회 -> 교수님, 교직원
     public List<Course> getPendingCourses() {
         return pendingCourses;
     }
 
 
     // -------------------Iteration 2 -------------------
-    // 수강 신청
-    Scanner sc = new Scanner(System.in);
+    // 수강 신청 -> 학생
     public void applyCourse(Student student) {
-        List<Course> openedCourses = getOpenedCourses();
-        for(Course course : openedCourses) {
-            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() + " (" +
-                    course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
-        }
+        Scanner sc = new Scanner(System.in);
+        getOpenedCourses();
 
         System.out.print(" - 수강 신청할 과목 코드 입력: ");
         String courseId = sc.next();
 
         for (Course course : openedCourses) {
             if (course.getCourseId().equals(courseId)) {
-                student.getCourseList().add(course);
+                student.getMyCourseList().add(course);
                 break;
             }
         }
         System.out.println("✅ 수강 신청 완료!");
     }
 
-    //수강 취소
+    //수강 취소 -> 학생
     public  void cancelCourse(Student student){
-        List<Course> courseList = student.getCourseList();
-        if (courseList.isEmpty()) {
-            System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
-            return;
-        }
-
-        for (Course course : courseList) {
-            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
-                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
-        }
+        Scanner sc = new Scanner(System.in);
+        List<Course> myCourseList = student.getMyCourseList();
 
         System.out.print(" - 수강 취소할 과목 코드 입력: ");
         String courseId = sc.next();
 
-        for (Course course : courseList) {
+        for (Course course : myCourseList) {
             if (course.getCourseId().equals(courseId)) {
-                student.getCourseList().remove(course);
+                student.getMyCourseList().remove(course);
                 break;
             }
         }
         System.out.println("✅ 수강 취소 완료!");
     }
-    //수강 과목 조회
 
-    // 개설된 과목 조회
-    public List<Course> getOpenedCourses() {
-        return openedCourses;
+    //수강 과목 조회 -> 학생
+    void showCourseList(Student student) {
+        student.getMyCourseList();
     }
+
+    // 개설된 과목 조회 -> 전체 메뉴
+    public void getOpenedCourses() {
+        if (openedCourses.isEmpty()) {
+            System.out.println("⚠️ 개설된 과목이 없습니다.");
+            return;
+        }
+        for (Course course : openedCourses) {
+            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
+                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
+        }
+    }
+
 
 }

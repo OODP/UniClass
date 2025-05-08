@@ -3,14 +3,14 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Auth {
-
-    private static Map<String, User> userDB = new HashMap<>();
+    static final Map<String, User> userDB = new HashMap<>();
 
     static {
         userDB.put("prof", new Professor("prof", "1234", "교수 A", "P001"));
         userDB.put("staff", new Staff("staff", "1234", "교직원 A", "S001"));
         userDB.put("student", new Student("student", "1234", "학생 A", "22100434"));
     }
+
 
     //로그인 기능
     public static User login() {
@@ -34,12 +34,14 @@ public class Auth {
 
     // 회원가입 기능
     public static void signUp() {
+        Validate validate = new Validate();
         Scanner sc = new Scanner(System.in);
         System.out.print("새 ID: ");
         String id = sc.nextLine();
 
-        if (userDB.containsKey(id)) {
-            System.out.println("이미 존재하는 ID입니다.");
+        boolean checkId = validate.isDuplicateId(id);
+        if(!checkId) {
+            System.out.println("ID 중복 검사 실패. 회원가입을 종료합니다.");
             return;
         }
 
