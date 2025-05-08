@@ -14,17 +14,22 @@ public class Staff extends User {
 
         while (true) {
             System.out.println("\n================ 스태프 메뉴 =================");
+            System.out.println(" 0. 🔍 개설된 과목 목록");
             System.out.println(" 1. 📘 과목 개설 허락");
             System.out.println(" 2. ❌ 과목 개설 불허");
             System.out.println(" 3. 📋 개설 요청 과목 목록 보기");
             System.out.println(" 4. 🔒 로그아웃");
             System.out.println("===============================================");
-            System.out.print("👉 선택하세요 (1-4): ");
+            System.out.print("👉 선택하세요 (0-4): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
             switch (choice) {
+                case 0:
+                    System.out.println("🔷 [개설된 과목 목록]");
+                    courseManager.getOpenedCourses();
+                    break;
                 case 1:
                     System.out.println("🔷 [과목 개설 허락]");
                     List<Course> coursesToApprove = courseManager.getPendingCourses();

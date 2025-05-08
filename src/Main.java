@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        while(true) {
+        while (true) {
             System.out.println("----------------------------------------");
             System.out.print("1.로그인 2.회원가입 3.종료\n=> ");
             Scanner sc = new Scanner(System.in);

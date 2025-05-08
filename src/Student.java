@@ -5,14 +5,24 @@ import java.util.Scanner;
 public class Student extends User {
 
     CourseManager courseManager = new CourseManager();
-    List<Course> courseList = new ArrayList<>(); // 수강 신청한 과목 리스트
+    List<Course> myCourseList = new ArrayList<>(); // 수강 신청한 과목 리스트
+    int student_credit = 0; // 수강 신청한 학점
 
     public Student(String id, String password, String name, String uniqueId) {
         super(id, password, name, uniqueId);
     }
 
-    public List<Course> getCourseList() {
-        return courseList;
+    public List<Course> getMyCourseList() {
+        if(myCourseList.isEmpty()) {
+            System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
+            return null;
+        }
+        System.out.println("🔷 [수강 신청 목록]");
+        for(Course course : myCourseList) {
+            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
+                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
+        }
+        return myCourseList;
     }
 
     @Override
@@ -21,6 +31,7 @@ public class Student extends User {
 
         while (true) {
             System.out.println("\n================ 학생 메뉴 =================");
+            System.out.println(" 0. 🔍개설된 과목 목록");
             System.out.println(" 1. 📖 수강 신청 목록");
             System.out.println(" 2. 📚 수강 신청");
             System.out.println(" 3. ❌ 수강 신청 취소");
@@ -30,22 +41,19 @@ public class Student extends User {
 //            System.out.println(" 6. ❌ 수강 대기 신청 취소");
             System.out.println(" 7. 🔒 로그아웃");
             System.out.println("============================================");
-            System.out.print("👉 선택하세요 (1-7): ");
+            System.out.print("👉 선택하세요 (0-7): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
             switch (choice) {
+                case 0:
+                    System.out.println("🔷 [개설된 과목 목록]");
+                    courseManager.getOpenedCourses();
+                    break;
                 case 1:
                     System.out.println("🔷 [수강 신청 목록]");
-                    if (courseList.isEmpty()) {
-                        System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
-                    } else {
-                        for (Course course : courseList) {
-                            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
-                                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
-                        }
-                    }
+                    courseManager.showCourseList(this);
                     break;
 
                 case 2:

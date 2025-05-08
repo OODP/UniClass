@@ -14,6 +14,7 @@ public class Professor extends User {
 
         while (true) {
             System.out.println("\n================ 교수 메뉴 =================");
+            System.out.println(" 0. 🔍 개설된 과목 목록");
             System.out.println(" 1. 📘 과목 개설 신청 (Open)");
             System.out.println(" 2. ❌ 과목 폐강 신청 (Close)");
             System.out.println(" 3. ✏️  개설한 과목 정보 수정 (Update)");
@@ -21,12 +22,17 @@ public class Professor extends User {
             System.out.println(" 5. 🧑‍🎓 학생 대기 신청 목록 확인 및 처리");
             System.out.println(" 6. 🔒 로그아웃");
             System.out.println("============================================");
-            System.out.print("👉 선택하세요 (1-6): ");
+            System.out.print("👉 선택하세요 (0-6): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
             switch (choice) {
+                case 0:
+                    System.out.println("🔷 [개설된 과목 목록]");
+                    courseManager.getOpenedCourses();
+                    break;
+
                 case 1:
                     System.out.println("🔷 [과목 개설 신청]");
                     System.out.print(" - 과목 코드 입력: ");
