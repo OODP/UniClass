@@ -30,7 +30,7 @@ public class Professor extends User {
             switch (choice) {
                 case 0:
                     System.out.println("🔷 [개설된 과목 목록]");
-                    courseManager.getOpenedCourses();
+                    courseManager.viewOpenedCourses();
                     break;
 
                 case 1:
@@ -97,7 +97,7 @@ public class Professor extends User {
 
                 case 5:
                     System.out.println("🔷 [학생 대기 신청 목록]");
-
+//                    courseManager.showAndHandleWaitingList(this);
                     break;
 
                 case 6:
@@ -109,7 +109,7 @@ public class Professor extends User {
             }
 
             System.out.println("\n[Enter 키를 눌러 계속하기...]");
-            sc.nextLine(); // 남아있는 개행 제거
+            sc.nextLine(); // 남아있는 행 제거
             sc.nextLine(); // 사용자 입력 대기
         }
     }

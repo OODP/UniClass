@@ -14,8 +14,6 @@ public class Student extends User {
         super(id, password, name, uniqueId);
     }
 
-
-
     // 나의 수강 신청 리스트 getter
     public List<Course> getMyCourseList() {
         return myCourseList;
@@ -38,61 +36,74 @@ public class Student extends User {
 
         while (true) {
             System.out.println("\n================ 학생 메뉴 =================");
-            System.out.println(" 0. 🔍개설된 과목 목록");
-            System.out.println(" 1. 📖 수강 신청 목록");
-            System.out.println(" 2. 📚 수강 신청");
-            System.out.println(" 3. ❌ 수강 신청 취소");
-            System.out.println(" 4. 📝 예비 수강 신청");
-            System.out.println(" 5. ❌ 예비 수강 신청 취소");
-            System.out.println(" 6. 🕒 수강 대기 신청");
-            System.out.println(" 7. ❌ 수강 대기 신청 취소");
-            System.out.println(" 8. 🔒 로그아웃");
+            System.out.println(" 1. 🔍 개설된 과목 목록");
+            System.out.println(" 2. 📖 수강 신청 목록");
+            System.out.println(" 3. 🔍 예비 수강 신청 목록");
+            System.out.println(" 4. 📖 수강 대기 신청 목록");
+
+            System.out.println(" 5. 📚 수강 신청");
+            System.out.println(" 6. ❌ 수강 신청 취소");
+            System.out.println(" 7. 📝 예비 수강 신청");
+            System.out.println(" 8. ❌ 예비 수강 신청 취소");
+            System.out.println(" 9. 🕒 수강 대기 신청");
+            System.out.println(" 10. ❌ 수강 대기 신청 취소");
+            System.out.println(" 11. 🔒 로그아웃");
             System.out.println("============================================");
-            System.out.print("👉 선택하세요 (0-7): ");
+            System.out.print("👉 선택하세요 (1-11): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
             switch (choice) {
-                case 0:
-                    System.out.println("🔷 [개설된 과목 목록]");
-                    courseManager.getOpenedCourses();
-                    break;
                 case 1:
+                    System.out.println("🔷 [개설된 과목 목록]");
+                    courseManager.viewOpenedCourses();
+                    break;
+                case 2:
                     System.out.println("🔷 [수강 신청 목록]");
                     courseManager.viewMyCourseList(this);
                     break;
+                case 3:
+                    System.out.println("🔷 [예비 수강 신청 목록]");
+                    courseManager.viewMyPreliminaryCourseList(this);
+                    break;
 
-                case 2:
+                case 4:
+                    System.out.println("🔷 [수강 대기 신청 목록]");
+                    courseManager.viewMyWaitingCourseList(this);
+                    break;
+
+                case 5:
                     System.out.println("🔷 [수강 신청]");
                     courseManager.applyCourse(this);
                     break;
 
-                case 3:
+                case 6:
                     System.out.println("🔷 [수강 신청 취소]");
                     courseManager.cancelCourse(this);
                     break;
-                case 4:
+
+                case 7:
                     System.out.println("🔷 [예비 수강 신청]");
                     courseManager.applyPreliminaryCourse(this);
                     break;
 
-                case 5:
+                case 8:
                     System.out.println("🔷 [예비 수강 신청 취소]");
                     courseManager.cancelPreliminaryCourse(this);
                     break;
 
-                case 6:
+                case 9:
                     System.out.println("🔷 [수강 대기 신청]");
                     courseManager.applyWaitingCourse(this);
                     break;
 
-                case 7:
+                case 10:
                     System.out.println("🔷 [수강 대기 신청 취소]");
                     courseManager.cancelWaitingCourse(this);
                     break;
 
-                case 8:
+                case 11:
                     System.out.println("👋 로그아웃합니다...");
                     return;
 

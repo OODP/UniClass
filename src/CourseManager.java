@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,9 +12,10 @@ public class CourseManager {
     static {
         Professor professor = new Professor("prof", "1234", "교수 A", "P001");
         Course course1 = new Course("CS101", "운영체재", 3, 30, professor);
-        Course course2 = new Course("CS102", "알고리즘", 3, 30, professor);
         openedCourses.add(course1);
+        Course course2 = new Course("CS102", "알고리즘", 3, 30, professor);
         openedCourses.add(course2);
+
     }
 
     // --------------------Iteration 1 -------------------
@@ -72,12 +74,12 @@ public class CourseManager {
     // 수강 신청 과목 보기 -> 학생
     public List<Course> viewMyCourseList(Student student) {
         List<Course> myCourseList = student.getMyCourseList();
-        if(myCourseList.isEmpty()) {
+        if (myCourseList.isEmpty()) {
             System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
             return null;
         }
         System.out.println("🔷 [수강 신청 목록]");
-        for(Course course : myCourseList) {
+        for (Course course : myCourseList) {
             System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
                     " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
         }
@@ -87,7 +89,7 @@ public class CourseManager {
     // 수강 신청 -> 학생
     public void applyCourse(Student student) {
         Scanner sc = new Scanner(System.in);
-        getOpenedCourses();
+        viewOpenedCourses();
 
         System.out.print(" - 수강 신청할 과목 코드 입력: ");
         String courseId = sc.next();
@@ -102,7 +104,7 @@ public class CourseManager {
     }
 
     // 수강 취소 -> 학생
-    public  void cancelCourse(Student student){
+    public void cancelCourse(Student student) {
         Scanner sc = new Scanner(System.in);
         List<Course> myCourseList = viewMyCourseList(student);
 
@@ -119,7 +121,7 @@ public class CourseManager {
     }
 
     // 개설된 과목 조회 -> 전체 메뉴
-    public void getOpenedCourses() {
+    public void viewOpenedCourses() {
         if (openedCourses.isEmpty()) {
             System.out.println("⚠️ 개설된 과목이 없습니다.");
             return;
@@ -132,10 +134,24 @@ public class CourseManager {
 
 
     //-----------------------Iteration 3 -------------------
+    // 예비 수강 신청 과목 보기 -> 학생
+    public void viewMyPreliminaryCourseList(Student student) {
+        List<Course> myPreliminaryCourseList = student.getMyPreliminaryCourseList();
+        if (myPreliminaryCourseList.isEmpty()) {
+            System.out.println("⚠️ 예비 수강 신청한 과목이 없습니다.");
+            return;
+        }
+        System.out.println("🔷 [예비 수강 신청 목록]");
+        for (Course course : myPreliminaryCourseList) {
+            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
+                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
+        }
+    }
+
     // 예비 수강 신청 -> 학생
     public void applyPreliminaryCourse(Student student) {
         Scanner sc = new Scanner(System.in);
-        getOpenedCourses();
+        viewOpenedCourses();
 
         System.out.print(" - 예비 수강 신청할 과목 코드 입력: ");
         String courseId = sc.next();
@@ -144,8 +160,7 @@ public class CourseManager {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyPreliminaryCourseList().add(course);
                 break;
-            }
-            else {
+            } else {
                 System.out.println("❗ 잘못된 과목 코드입니다.");
                 return;
             }
@@ -157,6 +172,7 @@ public class CourseManager {
     public void cancelPreliminaryCourse(Student student) {
         Scanner sc = new Scanner(System.in);
         List<Course> myPreliminaryCourseList = student.getMyPreliminaryCourseList();
+        viewMyPreliminaryCourseList(student);
 
         System.out.print(" - 예비 수강 신청 취소할 과목 코드 입력: ");
         String courseId = sc.next();
@@ -165,8 +181,7 @@ public class CourseManager {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyPreliminaryCourseList().remove(course);
                 break;
-            }
-            else {
+            } else {
                 System.out.println("❗ 잘못된 과목 코드입니다.");
                 return;
             }
@@ -174,10 +189,23 @@ public class CourseManager {
         System.out.println("✅ 예비 수강 신청 취소 완료!");
     }
 
+    // 수강 대기 신청 과목 보기 -> 학생
+    public void viewMyWaitingCourseList(Student student) {
+        List<Course> myWaitingCourseList = student.getMyWaitingCourseList();
+        if (myWaitingCourseList.isEmpty()) {
+            System.out.println("⚠️ 수강 대기 신청한 과목이 없습니다.");
+            return;
+        }
+        for (Course course : myWaitingCourseList) {
+            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
+                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
+        }
+    }
+
     // 수강 대기 신청
     public void applyWaitingCourse(Student student) {
         Scanner sc = new Scanner(System.in);
-        getOpenedCourses();
+        viewOpenedCourses();
 
         System.out.print(" - 수강 대기 신청할 과목 코드 입력: ");
         String courseId = sc.next();
@@ -185,9 +213,9 @@ public class CourseManager {
         for (Course course : openedCourses) {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyWaitingCourseList().add(course);
+                course.getWaitingStudentList().add(student);
                 break;
-            }
-            else {
+            } else {
                 System.out.println("❗ 잘못된 과목 코드입니다.");
                 return;
             }
@@ -206,9 +234,9 @@ public class CourseManager {
         for (Course course : myWaitingCourseList) {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyWaitingCourseList().remove(course);
+                course.getWaitingStudentList().remove(student);
                 break;
-            }
-            else {
+            } else {
                 System.out.println("❗ 잘못된 과목 코드입니다.");
                 return;
             }
@@ -217,4 +245,37 @@ public class CourseManager {
     }
 
     // 수강 대기 신청 목록 확인 및 처리 -> 교수님
+//    public void showAndHandleWaitingList(Professor professor){
+//        Scanner sc = new Scanner(System.in);
+//        for(Course course : openedCourses) {
+//            if(course.getProfessor().equals(professor)){
+//                List<Student> waitingStudentList = course.getWaitingStudentList();
+//                System.out.println("studnet = " + waitingStudentList);
+//                if(waitingStudentList.isEmpty()) {
+//                    System.out.println("⚠️ 대기 신청한 학생이 없습니다.");
+//                    return;
+//                }
+//                System.out.println("🔷 [학생 대기 신청 목록]");
+//
+//                for(Student student : waitingStudentList)  {
+//                    System.out.println("학생정보 ID : " + student.getId() + ", 학생 이름: " + student.getName());
+//                    System.out.println("수락(1)/ 거절(2) 선택: ");
+//                    int choice = sc.nextInt();
+//
+//                    if(choice == 1) {
+//                        course.getWaitingStudentList().remove(student);
+//                        student.getMyWaitingCourseList().remove(course);
+//                        student.getMyCourseList().add(course);
+//                        System.out.println("✅ 수강 대기 신청 수락 완료!");
+//                    }
+//                    else if(choice == 2) {
+//                        course.getWaitingStudentList().remove(student);
+//                        student.getMyWaitingCourseList().remove(course);
+//                        System.out.println("❌ 수강 대기 신청 거절 완료!");
+//                    }
+//                    else {
+//                        System.out.println("❗ 잘못된 선택입니다.");
+//                    }
+//                }
+//            }
 }
