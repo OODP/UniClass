@@ -97,7 +97,7 @@ public class Professor extends User {
 
                 case 5:
                     System.out.println("🔷 [학생 대기 신청 목록]");
-                    System.out.println("(※ 구현 예정)");
+
                     break;
 
                 case 6:
