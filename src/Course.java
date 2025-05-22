@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -7,8 +8,8 @@ public class Course {
     private String courseName;
     private int credit;
     private int participants;
-    private Professor professor;
-    private List<Student> students;
+    private final Professor professor;
+    private final List<Student> waitingStudentList = new ArrayList<>();
 
     public Course(String courseId, String courseName, int credit, int participants, Professor professor) {
         this.courseId = courseId;
@@ -19,6 +20,10 @@ public class Course {
     }
 
     //getter
+    public List<Student> getWaitingStudentList() {
+        return waitingStudentList;
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -33,6 +38,10 @@ public class Course {
 
     public int getParticipants() {
         return participants;
+    }
+
+    public Professor getProfessor() {
+        return professor;
     }
 
     //setter

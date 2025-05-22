@@ -28,7 +28,7 @@ public class Staff extends User {
             switch (choice) {
                 case 0:
                     System.out.println("🔷 [개설된 과목 목록]");
-                    courseManager.getOpenedCourses();
+                    courseManager.viewOpenedCourses();
                     break;
                 case 1:
                     System.out.println("🔷 [과목 개설 허락]");
