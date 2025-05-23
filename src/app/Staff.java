@@ -17,7 +17,7 @@ public class Staff extends User {
     @Override
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
-        CourseManager courseManager = new CourseManager();
+        CourseManager courseManager = CourseManager.getInstance();
         StaffCommandInvoker invoker = new StaffCommandInvoker();
 
         invoker.setCommand(1, new ViewOpenedCoursesCommand(courseManager));
