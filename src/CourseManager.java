@@ -212,6 +212,7 @@ public class CourseManager {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyWaitingCourseList().add(course);
                 course.getWaitingStudentList().add(student);
+                System.out.println("✅ 예비 수강 신청 완료!");
                 return;
             }
         }
