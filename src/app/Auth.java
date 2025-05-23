@@ -1,16 +1,16 @@
 package app;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Auth {
     static final Map<String, User> userDB = new HashMap<>();
+    public static final List<StaffContext> pendingStaff = new ArrayList<>();
 
     static {
         userDB.put("prof", new Professor("prof", "1234", "교수 A", "P001"));
         userDB.put("staff", new Staff("staff", "1234", "교직원 A", "S001"));
         userDB.put("student", new Student("student", "1234", "학생 A", "22100434"));
+        userDB.put("manager", new Manager("manager", "1234", "매니저 A", "M001"));
     }
 
 
@@ -22,15 +22,39 @@ public class Auth {
         System.out.print("비밀번호를 입력하시오: ");
         String password = sc.nextLine();
 
-        if(!userDB.containsKey(id) || (!userDB.get(id).getPassword().equals(password))) {
-            System.out.println("id와 비밀번호가 일치하지 않습니다.");
-            return null;
+        // 1. userDB에 있으면 정상 로그인
+        if(userDB.containsKey(id) && userDB.get(id).getPassword().equals(password)) {
+            User user = userDB.get(id);
+            System.out.println("----------------------------------------");
+            System.out.println(user.getName() + "님 환영합니다!!");
+            return user;
         }
 
-        User user = userDB.get(id);
-        System.out.println("----------------------------------------");
-        System.out.println(user.getName() + "님 환영합니다!!");
-        return user;
+        // 2. pendingStaff에서 대기 중인지 확인
+        for (StaffContext ctx : pendingStaff) {
+            if (ctx.getStaff().getId().equals(id) && ctx.getStaff().getPassword().equals(password)) {
+                if (ctx.getState().equals("pending")) {
+                    System.out.println("승인 대기 중입니다. 관리자의 승인을 기다려주세요.");
+                    return null;
+                } else if (ctx.getState().equals("rejected")) {
+                    System.out.println("승인 요청이 거절되었습니다. 관리자에게 문의하세요.");
+                    return null;
+                }
+            }
+        }
+
+        System.out.println("id와 비밀번호가 일치하지 않습니다.");
+        return null;
+
+//        if(!userDB.containsKey(id) || (!userDB.get(id).getPassword().equals(password))) {
+//            System.out.println("id와 비밀번호가 일치하지 않습니다.");
+//            return null;
+//        }
+//
+//        User user = userDB.get(id);
+//        System.out.println("----------------------------------------");
+//        System.out.println(user.getName() + "님 환영합니다!!");
+//        return user;
     }
 
 
@@ -62,20 +86,24 @@ public class Auth {
         switch (type) {
             case 1:
                 newUser = new Student(id, pw, name, uid);
+                userDB.put(id, newUser);
+                System.out.println("회원가입이 완료되었습니다!");
                 break;
             case 2:
                 newUser = new Professor(id, pw, name, uid);
+                userDB.put(id, newUser);
+                System.out.println("회원가입이 완료되었습니다!");
                 break;
             case 3:
-                newUser = new Staff(id, pw, name, uid);
+                Staff staff = new Staff(id, pw, name, uid);
+                StaffContext ctx = new StaffContext(staff);
+                pendingStaff.add(ctx);
+                System.out.println("승인 요청이 접수되었습니다. 관리자의 승인을 기다려주세요.");
                 break;
             default:
                 System.out.println("잘못된 선택입니다.");
                 return;
         }
-
-        userDB.put(id, newUser);
-        System.out.println("회원가입이 완료되었습니다!");
     }
 
 
