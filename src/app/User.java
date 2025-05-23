@@ -1,3 +1,5 @@
+package app;
+
 abstract public class User {
 
     private final String id;
