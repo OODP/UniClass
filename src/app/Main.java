@@ -14,7 +14,7 @@ public class Main {
                 case 1:
                     User user = Auth.login();
                     if (user != null) {
-                        user.showMenu();
+                        user.userTemplate();
                     }
                     break;
                 case 2:
