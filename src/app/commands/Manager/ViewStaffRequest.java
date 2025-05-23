@@ -3,10 +3,12 @@ package app.commands.Manager;
 import app.Auth;
 import app.StaffContext;
 import app.commands.Command;
+import app.state.staff.PendingState;
 
 import java.util.List;
 import java.util.Scanner;
 
+// ViewStaffRequest (Command)
 public class ViewStaffRequest implements Command {
     @Override
     public void execute() {
@@ -17,7 +19,7 @@ public class ViewStaffRequest implements Command {
         int cnt = 0;
         for (int i = 0; i < pending.size(); i++) {
             StaffContext ctx = pending.get(i);
-            if (ctx.getState().equals("pending")) {
+            if (ctx.getState() instanceof PendingState) {
                 cnt++;
                 System.out.printf("%d. %s (%s) - 상태: %s\n", i+1, ctx.getStaff().getName(), ctx.getStaff().getUniqueId(), ctx.getStateName());
             }
@@ -31,7 +33,7 @@ public class ViewStaffRequest implements Command {
         int idx = sc.nextInt();
         sc.nextLine();
 
-        if (idx > 0 && idx <= pending.size() && pending.get(idx-1).getState().equals("pending")) {
+        if (idx > 0 && idx <= pending.size() && pending.get(idx-1).getState() instanceof PendingState) {
             StaffContext ctx = pending.get(idx-1);
             System.out.println(" 1. 📘 승인");
             System.out.println(" 2. ❌ 거절");
@@ -39,11 +41,9 @@ public class ViewStaffRequest implements Command {
             int action = sc.nextInt();
             sc.nextLine();
             if (action == 1) {
-                ctx.approve();
-                System.out.println("승인 완료!");
+                ctx.approve(); // State 패턴으로 승인 처리
             } else if (action == 2) {
-                ctx.reject();
-                System.out.println("거절 처리되었습니다.");
+                ctx.reject(); // State 패턴으로 거절 처리
             } else {
                 System.out.println("잘못된 입력입니다.");
             }
@@ -54,3 +54,4 @@ public class ViewStaffRequest implements Command {
         }
     }
 }
+

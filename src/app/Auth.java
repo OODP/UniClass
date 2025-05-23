@@ -3,7 +3,7 @@ package app;
 import java.util.*;
 
 public class Auth {
-    static final Map<String, User> userDB = new HashMap<>();
+    public static final Map<String, User> userDB = new HashMap<>();
     public static final List<StaffContext> pendingStaff = new ArrayList<>();
 
     static {
@@ -22,7 +22,7 @@ public class Auth {
         System.out.print("비밀번호를 입력하시오: ");
         String password = sc.nextLine();
 
-        // 1. userDB에 있으면 정상 로그인
+        // userDB에 있으면 정상 로그인
         if(userDB.containsKey(id) && userDB.get(id).getPassword().equals(password)) {
             User user = userDB.get(id);
             System.out.println("----------------------------------------");
@@ -30,19 +30,13 @@ public class Auth {
             return user;
         }
 
-        // 2. pendingStaff에서 대기 중인지 확인
+        // pendingStaff에서 대기/거절 상태인지 State 패턴으로 처리
         for (StaffContext ctx : pendingStaff) {
             if (ctx.getStaff().getId().equals(id) && ctx.getStaff().getPassword().equals(password)) {
-                if (ctx.getState().equals("pending")) {
-                    System.out.println("승인 대기 중입니다. 관리자의 승인을 기다려주세요.");
-                    return null;
-                } else if (ctx.getState().equals("rejected")) {
-                    System.out.println("승인 요청이 거절되었습니다. 관리자에게 문의하세요.");
-                    return null;
-                }
+                ctx.login(); // 상태별 메시지 출력
+                return null;
             }
         }
-
         System.out.println("id와 비밀번호가 일치하지 않습니다.");
         return null;
 
