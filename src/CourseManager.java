@@ -159,13 +159,11 @@ public class CourseManager {
         for (Course course : openedCourses) {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyPreliminaryCourseList().add(course);
-                break;
-            } else {
-                System.out.println("❗ 잘못된 과목 코드입니다.");
+                System.out.println("✅ 예비 수강 신청 완료!");
                 return;
             }
         }
-        System.out.println("✅ 예비 수강 신청 완료!");
+        System.out.println("❗ 잘못된 과목 코드입니다.");
     }
 
     // 예비 수강 신청 취소 -> 학생
