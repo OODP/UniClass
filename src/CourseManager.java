@@ -212,13 +212,10 @@ public class CourseManager {
             if (course.getCourseId().equals(courseId)) {
                 student.getMyWaitingCourseList().add(course);
                 course.getWaitingStudentList().add(student);
-                break;
-            } else {
-                System.out.println("❗ 잘못된 과목 코드입니다.");
                 return;
             }
         }
-        System.out.println("✅ 수강 대기 신청 완료!");
+        System.out.println("❗ 잘못된 과목 코드입니다.");
     }
 
     // 수강 대기 신청 취소
