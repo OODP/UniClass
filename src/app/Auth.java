@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Auth {
     public static final Map<String, User> userDB = new HashMap<>();
-    public static final List<StaffContext> pendingStaff = new ArrayList<>();
+    public static final List<StaffContext> StaffList = new ArrayList<>();
 
     static {
         userDB.put("prof", new Professor("prof", "1234", "교수 A", "P001"));
@@ -31,7 +31,7 @@ public class Auth {
         }
 
         // pendingStaff에서 대기/거절 상태인지 State 패턴으로 처리
-        for (StaffContext ctx : pendingStaff) {
+        for (StaffContext ctx : StaffList) {
             if (ctx.getStaff().getId().equals(id) && ctx.getStaff().getPassword().equals(password)) {
                 ctx.login(); // 상태별 메시지 출력
                 return null;
@@ -91,7 +91,7 @@ public class Auth {
             case 3:
                 Staff staff = new Staff(id, pw, name, uid);
                 StaffContext ctx = new StaffContext(staff);
-                pendingStaff.add(ctx);
+                StaffList.add(ctx);
                 System.out.println("승인 요청이 접수되었습니다. 관리자의 승인을 기다려주세요.");
                 break;
             default:
