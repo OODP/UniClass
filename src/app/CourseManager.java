@@ -1,4 +1,5 @@
-import java.sql.Array;
+package app;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -241,11 +242,11 @@ public class CourseManager {
     }
 
     // 수강 대기 신청 목록 확인 및 처리 -> 교수님
-//    public void showAndHandleWaitingList(Professor professor){
+//    public void showAndHandleWaitingList(app.Professor professor){
 //        Scanner sc = new Scanner(System.in);
-//        for(Course course : openedCourses) {
+//        for(app.Course course : openedCourses) {
 //            if(course.getProfessor().equals(professor)){
-//                List<Student> waitingStudentList = course.getWaitingStudentList();
+//                List<app.Student> waitingStudentList = course.getWaitingStudentList();
 //                System.out.println("studnet = " + waitingStudentList);
 //                if(waitingStudentList.isEmpty()) {
 //                    System.out.println("⚠️ 대기 신청한 학생이 없습니다.");
@@ -253,7 +254,7 @@ public class CourseManager {
 //                }
 //                System.out.println("🔷 [학생 대기 신청 목록]");
 //
-//                for(Student student : waitingStudentList)  {
+//                for(app.Student student : waitingStudentList)  {
 //                    System.out.println("학생정보 ID : " + student.getId() + ", 학생 이름: " + student.getName());
 //                    System.out.println("수락(1)/ 거절(2) 선택: ");
 //                    int choice = sc.nextInt();

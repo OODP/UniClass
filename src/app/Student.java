@@ -1,3 +1,8 @@
+package app;
+
+import app.commands.student.*;
+import app.invokers.StudentCommandInvoker;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,6 +38,18 @@ public class Student extends User {
     @Override
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
+        StudentCommandInvoker invoker = new StudentCommandInvoker();
+
+        invoker.setCommand(1, new ViewOpenedCoursesCommand(courseManager));
+        invoker.setCommand(2, new ViewMyCourseListCommand(courseManager, this));
+        invoker.setCommand(3, new ViewMyPreliminaryCourseListCommand(courseManager, this));
+        invoker.setCommand(4, new ViewMyWaitingCourseListCommand(courseManager, this));
+        invoker.setCommand(5, new ApplyCourseCommand(courseManager, this));
+        invoker.setCommand(6, new CancelCourseCommand(courseManager, this));
+        invoker.setCommand(7, new ApplyPreliminaryCourseCommand(courseManager, this));
+        invoker.setCommand(8, new CancelPreliminaryCourseCommand(courseManager, this));
+        invoker.setCommand(9, new ApplyWaitingCourseCommand(courseManager, this));
+        invoker.setCommand(10, new CancelWaitingCourseCommand(courseManager, this));
 
         while (true) {
             System.out.println("\n================ 학생 메뉴 =================");
@@ -54,62 +71,12 @@ public class Student extends User {
             int choice = sc.nextInt();
             System.out.println();
 
-            switch (choice) {
-                case 1:
-                    System.out.println("🔷 [개설된 과목 목록]");
-                    courseManager.viewOpenedCourses();
-                    break;
-                case 2:
-                    System.out.println("🔷 [수강 신청 목록]");
-                    courseManager.viewMyCourseList(this);
-                    break;
-                case 3:
-                    System.out.println("🔷 [예비 수강 신청 목록]");
-                    courseManager.viewMyPreliminaryCourseList(this);
-                    break;
-
-                case 4:
-                    System.out.println("🔷 [수강 대기 신청 목록]");
-                    courseManager.viewMyWaitingCourseList(this);
-                    break;
-
-                case 5:
-                    System.out.println("🔷 [수강 신청]");
-                    courseManager.applyCourse(this);
-                    break;
-
-                case 6:
-                    System.out.println("🔷 [수강 신청 취소]");
-                    courseManager.cancelCourse(this);
-                    break;
-
-                case 7:
-                    System.out.println("🔷 [예비 수강 신청]");
-                    courseManager.applyPreliminaryCourse(this);
-                    break;
-
-                case 8:
-                    System.out.println("🔷 [예비 수강 신청 취소]");
-                    courseManager.cancelPreliminaryCourse(this);
-                    break;
-
-                case 9:
-                    System.out.println("🔷 [수강 대기 신청]");
-                    courseManager.applyWaitingCourse(this);
-                    break;
-
-                case 10:
-                    System.out.println("🔷 [수강 대기 신청 취소]");
-                    courseManager.cancelWaitingCourse(this);
-                    break;
-
-                case 11:
-                    System.out.println("👋 로그아웃합니다...");
-                    return;
-
-                default:
-                    System.out.println("❗ 잘못된 선택입니다. 다시 입력하세요.");
+            if (choice == 11) {
+                System.out.println("👋 로그아웃합니다...");
+                return;
             }
+
+            invoker.executeCommand(choice);
 
             System.out.println("\n[Enter 키를 눌러 계속하기...]");
             sc.nextLine(); // 남아있는 개행 제거
