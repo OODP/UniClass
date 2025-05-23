@@ -1,3 +1,5 @@
+package app;
+
 public class Validate {
     // ID 중복 검사
     public boolean isDuplicateId(String id) {
