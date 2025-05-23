@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Student extends User {
 
-    CourseManager courseManager = new CourseManager();
+    CourseManager courseManager = CourseManager.getInstance();
     List<Course> myCourseList = new ArrayList<>(); // 수강 신청한 과목 리스트
     List<Course> myPreliminaryCourseList = new ArrayList<>(); // 예비 수강 신청한 과목 리스트
     List<Course> myWaitingCourseList = new ArrayList<>(); // 수강 대기 신청한 과목 리스트

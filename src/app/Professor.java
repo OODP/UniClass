@@ -15,7 +15,7 @@ public class Professor extends User {
     @Override
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
-        CourseManager courseManager = new CourseManager();
+        CourseManager courseManager = CourseManager.getInstance();
         ProfessorCommandInvoker invoker = new ProfessorCommandInvoker();
 
         invoker.setCommand(1, new ViewOpenedCoursesCommand(courseManager, this));

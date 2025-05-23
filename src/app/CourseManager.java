@@ -23,7 +23,6 @@ public class CourseManager {
         openedCourses.add(course1);
         Course course2 = new Course("CS102", "알고리즘", 3, 30, professor);
         openedCourses.add(course2);
-
     }
 
     // --------------------Iteration 1 -------------------
