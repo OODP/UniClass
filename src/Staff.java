@@ -10,14 +10,14 @@ public class Staff extends User {
     @Override
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
-        CourseManager courseManager = new CourseManager();
+        CourseManager courseManager = CourseManager.getInstance();
 
         while (true) {
             System.out.println("\n================ 스태프 메뉴 =================");
-            System.out.println(" 0. 🔍 개설된 과목 목록");
-            System.out.println(" 1. 📘 과목 개설 허락");
-            System.out.println(" 2. ❌ 과목 개설 불허");
-            System.out.println(" 3. 📋 개설 요청 과목 목록 보기");
+            System.out.println(" 0. 🔍 개설된 과목 목록 (View)");
+            System.out.println(" 1. 📘 과목 개설 허락 (Open)");
+            System.out.println(" 2. ❌ 과목 개설 불허 (Close)");
+            System.out.println(" 3. 📋 개설 요청 과목 목록 보기 (View)");
             System.out.println(" 4. 🔒 로그아웃");
             System.out.println("===============================================");
             System.out.print("👉 선택하세요 (0-4): ");

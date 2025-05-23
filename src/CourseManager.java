@@ -8,6 +8,13 @@ public class CourseManager {
     private static final List<Course> pendingCourses = new ArrayList<>(); // 개설 검토중인 과목 리스트
     private static final List<Course> openedCourses = new ArrayList<>(); // 개설된 과목 리스트
 
+    //singleton pattern -> instance 생성
+    private static CourseManager instance = new CourseManager();
+    private CourseManager() {}
+    public static CourseManager getInstance() {
+        return instance;
+    }
+
     // 초기 과목 개설 리스트 설정
     static {
         Professor professor = new Professor("prof", "1234", "교수 A", "P001");

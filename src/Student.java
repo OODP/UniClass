@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Student extends User {
 
-    CourseManager courseManager = new CourseManager();
     List<Course> myCourseList = new ArrayList<>(); // 수강 신청한 과목 리스트
     List<Course> myPreliminaryCourseList = new ArrayList<>(); // 예비 수강 신청한 과목 리스트
     List<Course> myWaitingCourseList = new ArrayList<>(); // 수강 대기 신청한 과목 리스트
@@ -33,20 +32,21 @@ public class Student extends User {
     @Override
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
+        CourseManager courseManager = CourseManager.getInstance();
 
         while (true) {
             System.out.println("\n================ 학생 메뉴 =================");
-            System.out.println(" 1. 🔍 개설된 과목 목록");
-            System.out.println(" 2. 📖 수강 신청 목록");
-            System.out.println(" 3. 🔍 예비 수강 신청 목록");
-            System.out.println(" 4. 📖 수강 대기 신청 목록");
+            System.out.println(" 1. 🔍 개설된 과목 목록 (View)");
+            System.out.println(" 2. 📖 수강 신청 목록 (View)");
+            System.out.println(" 3. 🔍 예비 수강 신청 목록 (View)");
+            System.out.println(" 4. 📖 수강 대기 신청 목록 (View)");
 
-            System.out.println(" 5. 📚 수강 신청");
-            System.out.println(" 6. ❌ 수강 신청 취소");
-            System.out.println(" 7. 📝 예비 수강 신청");
-            System.out.println(" 8. ❌ 예비 수강 신청 취소");
-            System.out.println(" 9. 🕒 수강 대기 신청");
-            System.out.println(" 10. ❌ 수강 대기 신청 취소");
+            System.out.println(" 5. 📚 수강 신청 (Open)");
+            System.out.println(" 6. ❌ 수강 신청 취소 (Close)");
+            System.out.println(" 7. 📝 예비 수강 신청 (Open)");
+            System.out.println(" 8. ❌ 예비 수강 신청 취소 (Close)");
+            System.out.println(" 9. 🕒 수강 대기 신청 (Open)");
+            System.out.println(" 10. ❌ 수강 대기 신청 취소 (Close)");
             System.out.println(" 11. 🔒 로그아웃");
             System.out.println("============================================");
             System.out.print("👉 선택하세요 (1-11): ");
