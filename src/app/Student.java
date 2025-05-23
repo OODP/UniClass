@@ -41,37 +41,39 @@ public class Student extends User {
         StudentCommandInvoker invoker = new StudentCommandInvoker();
 
         invoker.setCommand(1, new ViewOpenedCoursesCommand(courseManager));
-        invoker.setCommand(2, new ViewMyCourseListCommand(courseManager, this));
-        invoker.setCommand(3, new ViewMyPreliminaryCourseListCommand(courseManager, this));
-        invoker.setCommand(4, new ViewMyWaitingCourseListCommand(courseManager, this));
-        invoker.setCommand(5, new ApplyCourseCommand(courseManager, this));
-        invoker.setCommand(6, new CancelCourseCommand(courseManager, this));
-        invoker.setCommand(7, new ApplyPreliminaryCourseCommand(courseManager, this));
-        invoker.setCommand(8, new CancelPreliminaryCourseCommand(courseManager, this));
-        invoker.setCommand(9, new ApplyWaitingCourseCommand(courseManager, this));
-        invoker.setCommand(10, new CancelWaitingCourseCommand(courseManager, this));
+        invoker.setCommand(2, new SearchCourseCommand(courseManager));
+        invoker.setCommand(3, new ViewMyCourseListCommand(courseManager, this));
+        invoker.setCommand(4, new ViewMyPreliminaryCourseListCommand(courseManager, this));
+        invoker.setCommand(5, new ViewMyWaitingCourseListCommand(courseManager, this));
+        invoker.setCommand(6, new ApplyCourseCommand(courseManager, this));
+        invoker.setCommand(7, new CancelCourseCommand(courseManager, this));
+        invoker.setCommand(8, new ApplyPreliminaryCourseCommand(courseManager, this));
+        invoker.setCommand(9, new CancelPreliminaryCourseCommand(courseManager, this));
+        invoker.setCommand(10, new ApplyWaitingCourseCommand(courseManager, this));
+        invoker.setCommand(11, new CancelWaitingCourseCommand(courseManager, this));
 
         while (true) {
             System.out.println("\n================ 학생 메뉴 =================");
             System.out.println(" 1. 🔍 개설된 과목 목록");
-            System.out.println(" 2. 📖 수강 신청 목록");
-            System.out.println(" 3. 🔍 예비 수강 신청 목록");
-            System.out.println(" 4. 📖 수강 대기 신청 목록");
+            System.out.println(" 2. 🔍 개설 과목 검색");
+            System.out.println(" 3. 📖 수강 신청 목록");
+            System.out.println(" 4. 🔍 예비 수강 신청 목록");
+            System.out.println(" 5. 📖 수강 대기 신청 목록");
 
-            System.out.println(" 5. 📚 수강 신청");
-            System.out.println(" 6. ❌ 수강 신청 취소");
-            System.out.println(" 7. 📝 예비 수강 신청");
-            System.out.println(" 8. ❌ 예비 수강 신청 취소");
-            System.out.println(" 9. 🕒 수강 대기 신청");
-            System.out.println(" 10. ❌ 수강 대기 신청 취소");
-            System.out.println(" 11. 🔒 로그아웃");
+            System.out.println(" 6. 📚 수강 신청");
+            System.out.println(" 7. ❌ 수강 신청 취소");
+            System.out.println(" 8. 📝 예비 수강 신청");
+            System.out.println(" 9. ❌ 예비 수강 신청 취소");
+            System.out.println(" 10. 🕒 수강 대기 신청");
+            System.out.println(" 11. ❌ 수강 대기 신청 취소");
+            System.out.println(" 12. 🔒 로그아웃");
             System.out.println("============================================");
-            System.out.print("👉 선택하세요 (1-11): ");
+            System.out.print("👉 선택하세요 (1-12): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
-            if (choice == 11) {
+            if (choice == 12) {
                 System.out.println("👋 로그아웃합니다...");
                 return;
             }

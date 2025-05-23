@@ -247,6 +247,11 @@ public class CourseManager {
         System.out.println("✅ 수강 대기 신청 취소 완료!");
     }
 
+    //검색을 위한 openedCourse getter
+    public List<Course> getOpenedCourses() {
+        return openedCourses;
+    }
+
     // 수강 대기 신청 목록 확인 및 처리 -> 교수님
 //    public void showAndHandleWaitingList(app.Professor professor){
 //        Scanner sc = new Scanner(System.in);
