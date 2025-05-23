@@ -12,13 +12,13 @@ import java.util.Scanner;
 public class ViewStaffRequest implements Command {
     @Override
     public void execute() {
-        List<StaffContext> pending = Auth.pendingStaff;
+        List<StaffContext> staffList = Auth.StaffList;
         Scanner sc = new Scanner(System.in);
 
         System.out.println("\n================ 승인 요청 목록 ====================");
         int cnt = 0;
-        for (int i = 0; i < pending.size(); i++) {
-            StaffContext ctx = pending.get(i);
+        for (int i = 0; i < staffList.size(); i++) {
+            StaffContext ctx = staffList.get(i);
             if (ctx.getState() instanceof PendingState) {
                 cnt++;
                 System.out.printf("%d. %s (%s) - 상태: %s\n", i+1, ctx.getStaff().getName(), ctx.getStaff().getUniqueId(), ctx.getStateName());
@@ -33,8 +33,8 @@ public class ViewStaffRequest implements Command {
         int idx = sc.nextInt();
         sc.nextLine();
 
-        if (idx > 0 && idx <= pending.size() && pending.get(idx-1).getState() instanceof PendingState) {
-            StaffContext ctx = pending.get(idx-1);
+        if (idx > 0 && idx <= staffList.size() && staffList.get(idx-1).getState() instanceof PendingState) {
+            StaffContext ctx = staffList.get(idx-1);
             System.out.println(" 1. 📘 승인");
             System.out.println(" 2. ❌ 거절");
             System.out.print("👉 선택하세요 (1-2): ");
