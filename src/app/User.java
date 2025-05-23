@@ -14,8 +14,19 @@ abstract public class User {
         this.uniqueId = uniqueId;
     }
 
+    // 템플릿 메소드 패턴
+    public final void userTemplate() {
+        showMenu();
+    }
+
     //메뉴 보여주기
-    public abstract void showMenu();
+    protected abstract void showMenu();
+
+    // login
+    public void login(){};
+
+    // logout
+    public void logout(){};
 
 
     public String getId() {
@@ -33,21 +44,5 @@ abstract public class User {
     public String getUniqueId() {
         return uniqueId;
     }
-
-    // login
-    public void login() {
-        // Implement login logic here
-    }
-
-    // logout
-    public void logout() {
-        // Implement logout logic here
-    }
-
-    // signUp
-    public void signUp() {
-        // Implement registration logic here
-    }
-
 
 }
