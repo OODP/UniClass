@@ -20,10 +20,6 @@ public class HandleWaitingListCommand implements Command {
 
     @Override
     public void execute() {
-
-// 기능 주석처리된 상태입니다. 구현이 완성되면 여기에 추가하세요.
-// 예시: courseManager.showAndHandleWaitingList(professor);
-        System.out.println("❗ 기능이 아직 구현되지 않았습니다.");
-
+        courseManager.showAndHandleWaitingList(professor);
     }
 }

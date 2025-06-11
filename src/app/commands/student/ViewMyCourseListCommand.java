@@ -15,7 +15,6 @@ public class ViewMyCourseListCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("🔷 [수강 신청 목록]");
         cm.viewMyCourseList(student);
     }
 }
