@@ -6,11 +6,19 @@ public class Auth {
     public static final Map<String, User> userDB = new HashMap<>();
     public static final List<StaffContext> StaffList = new ArrayList<>();
 
+    // 초기 data
     static {
         userDB.put("prof", new Professor("prof", "1234", "교수 A", "P001"));
         userDB.put("staff", new Staff("staff", "1234", "교직원 A", "S001"));
         userDB.put("student", new Student("student", "1234", "학생 A", "22100434"));
         userDB.put("manager", new Manager("manager", "1234", "매니저 A", "M001"));
+
+        // UserManager 인스턴스 생성
+        UserManager um = UserManager.getInstance();
+        um.addProfessor((Professor) userDB.get("prof"));
+        um.addStudent((Student) userDB.get("student"));
+        um.addStaff((Staff) userDB.get("staff"));
+        um.addManager((Manager) userDB.get("manager"));
     }
 
 
@@ -23,12 +31,34 @@ public class Auth {
         String password = sc.nextLine();
 
         // userDB에 있으면 정상 로그인
-        if(userDB.containsKey(id) && userDB.get(id).getPassword().equals(password)) {
+
+        if (userDB.containsKey(id) && userDB.get(id).getPassword().equals(password)) {
             User user = userDB.get(id);
-            System.out.println("----------------------------------------");
-            System.out.println(user.getName() + "님 환영합니다!!");
-            return user;
+
+            if (user instanceof Student) {
+                Student stu = UserManager.getInstance().findStudentById(id);
+                System.out.println("----------------------------------------");
+                System.out.println(user.getName() + "님 환영합니다!!");
+                return stu;
+            } else if (user instanceof Professor) {
+                Professor prof = UserManager.getInstance().findProfessorById(id);
+                System.out.println("----------------------------------------");
+                System.out.println(user.getName() + "님 환영합니다!!");
+                return prof;
+            } else if (user instanceof Staff) {
+                Staff staff = UserManager.getInstance().findStaffById(id);
+                System.out.println("----------------------------------------");
+                System.out.println(user.getName() + "님 환영합니다!!");
+                return staff;
+            } else if (user instanceof Manager) {
+                Manager manager = UserManager.getInstance().findManagerById(id);
+                System.out.println("----------------------------------------");
+                System.out.println(user.getName() + "님 환영합니다!!");
+                return manager;
+            }
         }
+
+
 
         // pendingStaff에서 대기/거절 상태인지 State 패턴으로 처리
         for (StaffContext ctx : StaffList) {
@@ -39,16 +69,6 @@ public class Auth {
         }
         System.out.println("id와 비밀번호가 일치하지 않습니다.");
         return null;
-
-//        if(!userDB.containsKey(id) || (!userDB.get(id).getPassword().equals(password))) {
-//            System.out.println("id와 비밀번호가 일치하지 않습니다.");
-//            return null;
-//        }
-//
-//        User user = userDB.get(id);
-//        System.out.println("----------------------------------------");
-//        System.out.println(user.getName() + "님 환영합니다!!");
-//        return user;
     }
 
 
@@ -76,16 +96,20 @@ public class Auth {
         int type = sc.nextInt();
         sc.nextLine(); // 개행 제거
 
+        // 사용자 종류에 따라 객체 생성 및 DB에 추가
+        UserManager um = UserManager.getInstance();
         User newUser = null;
         switch (type) {
             case 1:
                 newUser = new Student(id, pw, name, uid);
                 userDB.put(id, newUser);
+                um.addStudent((Student) newUser);
                 System.out.println("회원가입이 완료되었습니다!");
                 break;
             case 2:
                 newUser = new Professor(id, pw, name, uid);
                 userDB.put(id, newUser);
+                um.addProfessor((Professor) newUser);
                 System.out.println("회원가입이 완료되었습니다!");
                 break;
             case 3:

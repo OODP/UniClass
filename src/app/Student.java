@@ -51,6 +51,8 @@ public class Student extends User {
         invoker.setCommand(9, new CancelPreliminaryCourseCommand(courseManager, this));
         invoker.setCommand(10, new ApplyWaitingCourseCommand(courseManager, this));
         invoker.setCommand(11, new CancelWaitingCourseCommand(courseManager, this));
+        invoker.setCommand(12, new ViewGradeCommand(courseManager, this));
+
 
         while (true) {
             System.out.println("\n================ 학생 메뉴 =================");
@@ -66,14 +68,15 @@ public class Student extends User {
             System.out.println(" 9. ❌ 예비 수강 신청 취소");
             System.out.println(" 10. 🕒 수강 대기 신청");
             System.out.println(" 11. ❌ 수강 대기 신청 취소");
-            System.out.println(" 12. 🔒 로그아웃");
+            System.out.println(" 12. 💯 성적 확인");
+            System.out.println(" 13. 🔒 로그아웃");
             System.out.println("============================================");
             System.out.print("👉 선택하세요 (1-12): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
-            if (choice == 12) {
+            if (choice == 13) {
                 System.out.println("👋 로그아웃합니다...");
                 return;
             }
@@ -84,5 +87,18 @@ public class Student extends User {
             sc.nextLine(); // 남아있는 개행 제거
             sc.nextLine(); // 사용자 입력 대기
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return getId().equals(student.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
     }
 }

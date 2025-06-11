@@ -22,13 +22,6 @@ abstract public class User {
     //메뉴 보여주기
     protected abstract void showMenu();
 
-    // login
-    public void login(){};
-
-    // logout
-    public void logout(){};
-
-
     public String getId() {
         return id;
     }

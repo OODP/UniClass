@@ -5,13 +5,13 @@ import java.util.List;
 
 
 public class Course {
-
     private final String courseId;
     private String courseName;
     private int credit;
     private int participants;
     private final Professor professor;
     private final List<Student> waitingStudentList = new ArrayList<>();
+    private final List<Grade> gradeList = new ArrayList<>();
 
     public Course(String courseId, String courseName, int credit, int participants, Professor professor) {
         this.courseId = courseId;
@@ -57,5 +57,29 @@ public class Course {
 
     public void setParticipants(int participants) {
         this.participants = participants;
+    }
+
+    // 과목에 학생 추가
+    public void setGradeValue(Student student, String gradeValue) {
+        for(Grade g : gradeList) {
+            if(g.getStudent().equals(student)) {
+                g.setGradeValue(gradeValue);
+                return;
+            }
+        }
+        gradeList.add(new Grade(student, this, gradeValue));
+    }
+
+    public String getGradeValue(Student student) {
+        for(Grade g : gradeList) {
+            if(g.getStudent().equals(student)) {
+                return g.getGradeValue();
+            }
+        }
+        return null;
+    }
+
+    public List<Grade> getGradeList() {
+        return gradeList;
     }
 }

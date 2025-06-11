@@ -11,7 +11,10 @@ public class CourseManager {
 
     //singleton pattern -> instance 생성
     private static CourseManager instance = new CourseManager();
-    private CourseManager() {}
+
+    private CourseManager() {
+    }
+
     public static CourseManager getInstance() {
         return instance;
     }
@@ -216,6 +219,7 @@ public class CourseManager {
         String courseId = sc.next();
 
         for (Course course : openedCourses) {
+            System.out.println("디버깅: openedCourses에서 찾는 중 - " + course.getCourseId());
             if (course.getCourseId().equals(courseId)) {
                 student.getMyWaitingCourseList().add(course);
                 course.getWaitingStudentList().add(student);
@@ -252,38 +256,176 @@ public class CourseManager {
         return openedCourses;
     }
 
+
+    //    ---------------------Iteration 4 -------------------
     // 수강 대기 신청 목록 확인 및 처리 -> 교수님
-//    public void showAndHandleWaitingList(app.Professor professor){
-//        Scanner sc = new Scanner(System.in);
-//        for(app.Course course : openedCourses) {
-//            if(course.getProfessor().equals(professor)){
-//                List<app.Student> waitingStudentList = course.getWaitingStudentList();
-//                System.out.println("studnet = " + waitingStudentList);
-//                if(waitingStudentList.isEmpty()) {
-//                    System.out.println("⚠️ 대기 신청한 학생이 없습니다.");
-//                    return;
-//                }
-//                System.out.println("🔷 [학생 대기 신청 목록]");
-//
-//                for(app.Student student : waitingStudentList)  {
-//                    System.out.println("학생정보 ID : " + student.getId() + ", 학생 이름: " + student.getName());
-//                    System.out.println("수락(1)/ 거절(2) 선택: ");
-//                    int choice = sc.nextInt();
-//
-//                    if(choice == 1) {
-//                        course.getWaitingStudentList().remove(student);
-//                        student.getMyWaitingCourseList().remove(course);
-//                        student.getMyCourseList().add(course);
-//                        System.out.println("✅ 수강 대기 신청 수락 완료!");
-//                    }
-//                    else if(choice == 2) {
-//                        course.getWaitingStudentList().remove(student);
-//                        student.getMyWaitingCourseList().remove(course);
-//                        System.out.println("❌ 수강 대기 신청 거절 완료!");
-//                    }
-//                    else {
-//                        System.out.println("❗ 잘못된 선택입니다.");
-//                    }
-//                }
-//            }
+    public void showAndHandleWaitingList(Professor professor) {
+        Scanner sc = new Scanner(System.in);
+        boolean found = false;
+        for (Course course : openedCourses) {
+            if (course.getProfessor().equals(professor)) {
+                List<Student> waitingStudentList = course.getWaitingStudentList();
+                if (waitingStudentList.isEmpty()) continue;
+                found = true;
+                System.out.println("과목: " + course.getCourseId() + " - " + course.getCourseName());
+                for (int i = 0; i < waitingStudentList.size(); ) {
+                    Student student = waitingStudentList.get(i);
+                    System.out.println("학생: " + student.getName() + " (" + student.getId() + ")");
+                    System.out.print("수락(1)/거절(2): ");
+                    int input = sc.nextInt();
+                    if (input == 1) {
+                        // 수락: 학생의 myCourseList에 추가, 대기 리스트에서 제거
+                        student.getMyCourseList().add(course);
+                        student.getMyWaitingCourseList().remove(course);
+                        waitingStudentList.remove(student);
+                        System.out.println("✅ 수강 대기 신청 수락 완료!");
+                    } else if (input == 2) {
+                        // 거절: 대기 리스트에서만 제거
+                        student.getMyWaitingCourseList().remove(course);
+                        waitingStudentList.remove(student);
+                        System.out.println("❌ 수강 대기 신청 거절 완료!");
+                    } else {
+                        System.out.println("❗ 잘못된 선택입니다.");
+                        i++;
+                        continue;
+                    }
+                    // 리스트에서 학생을 제거했으므로 인덱스 증가 X
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("⚠️ 대기 신청한 학생이 없습니다.");
+        }
+    }
+
+    // 학생 성적 입력 -> 교수님
+    public void inputStudentGrade(Professor professor) {
+        Scanner sc = new Scanner(System.in);
+        List<Course> myCourses = new ArrayList<>();
+
+        // 교수님 자신이 개설한 과목 목록 가져오기
+        for (Course c : getOpenedCourses()) {
+            if (c.getProfessor().equals(professor)) {
+                myCourses.add(c);
+            }
+        }
+
+        if (myCourses.isEmpty()) {
+            System.out.println("⚠️ 개설한 과목이 없습니다.");
+            return;
+        }
+
+        System.out.println("🔷 [학생 성적 입력]");
+        for (int i = 0; i < myCourses.size(); i++) {
+            System.out.println((i + 1) + ". " + myCourses.get(i).getCourseName() +
+                    " (" + myCourses.get(i).getCredit() + "학점, " + myCourses.get(i).getParticipants() + "명 수강 가능)");
+        }
+        System.out.print("과목 번호 선택 : ");
+        int index = sc.nextInt() - 1;
+        if (index < 0 || index >= myCourses.size()) {
+            System.out.println("❗ 잘못된 선택입니다.");
+            return;
+        }
+        Course selectedCourse = myCourses.get(index);
+
+        //해당 과목을 수강하는 학생 불러오기
+        List<Student> studentList = new ArrayList<>();
+        for (Student s : UserManager.getInstance().findAllStudents()) {
+            if (s.getMyCourseList().contains(selectedCourse)) {
+                studentList.add(s);
+            }
+        }
+
+        if (studentList.isEmpty()) {
+            System.out.println("⚠️ 해당 과목을 수강하는 학생이 없습니다.");
+            return;
+        }
+
+        for (Student stu : studentList) {
+            System.out.println("학생 ID: " + stu.getId() + ", 이름: " + stu.getName());
+            System.out.print("성적 입력 (A, B, C, D, F): ");
+            String grade = sc.next();
+            if (!grade.matches("[A-F]")) {
+                System.out.println("❗ 잘못된 성적 입력입니다. A, B, C, D, F 중 하나를 입력해주세요.");
+                return;
+            }
+            selectedCourse.setGradeValue(stu, grade);
+            System.out.println("✅ " + stu.getName() + " 학생의 성적이 " + grade + "로 입력되었습니다.");
+        }
+    }
+
+    // 성적 수정 -> 교수님
+    public void modifyStudentGrade(Professor professor) {
+        Scanner sc = new Scanner(System.in);
+        List<Course> myCourses = new ArrayList<>();
+
+        // 교수님 자신이 개설한 과목 목록 가져오기
+        for (Course c : getOpenedCourses()) {
+            if (c.getProfessor().equals(professor)) {
+                myCourses.add(c);
+            }
+        }
+
+        if (myCourses.isEmpty()) {
+            System.out.println("⚠️ 개설한 과목이 없습니다.");
+            return;
+        }
+
+        System.out.println("🔷 [학생 성적 수정]");
+        for (int i = 0; i < myCourses.size(); i++) {
+            System.out.println((i + 1) + ". " + myCourses.get(i).getCourseName() +
+                    " (" + myCourses.get(i).getCredit() + "학점, " + myCourses.get(i).getParticipants() + "명 수강 가능)");
+        }
+
+        System.out.print("과목 번호 선택: ");
+        int index = sc.nextInt()-1;
+        if (index < 0 || index >= myCourses.size()) {
+            System.out.println("❗ 잘못된 선택입니다.");
+            return;
+        }
+
+        Course selectedCourse = myCourses.get(index);
+
+        // 해당 과목을 수강하는 학생 불러오기
+        List<Student> studentList = new ArrayList<>();
+        for (Student s : UserManager.getInstance().findAllStudents()) {
+            if (s.getMyCourseList().contains(selectedCourse)) {
+                studentList.add(s);
+            }
+        }
+
+        if (studentList.isEmpty()) {
+            System.out.println("⚠️ 해당 과목을 수강하는 학생이 없습니다.");
+            return;
+        }
+
+        for (Student stu : studentList) {
+            System.out.println("학생 ID: " + stu.getId() + ", 이름: " + stu.getName());
+            System.out.print("수정할 성적 입력 (A, B, C, D, F): ");
+            String grade = sc.next();
+            if (!grade.matches("[A-F]")) {
+                System.out.println("❗ 잘못된 성적 입력입니다. A, B, C, D, F 중 하나를 입력해주세요.");
+                return;
+            }
+            selectedCourse.setGradeValue(stu, grade);
+            System.out.println("✅ " + stu.getName() + " 학생의 성적이 " + grade + "로 수정되었습니다.");
+        }
+    }
+
+    // 성적 조회 -> 학생
+    public void viewStudentGrades(Student student) {
+        List<Course> myCourses = student.getMyCourseList();
+        if (myCourses.isEmpty()) {
+            System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
+            return;
+        }
+
+        System.out.println("🔷 [학생 성적 조회]");
+        for (Course course : myCourses) {
+            String grade = course.getGradeValue(student);
+            System.out.println("과목: " + course.getCourseName() + ", 성적: " + (grade != null ? grade : "미입력"));
+        }
+    }
+
+
 }

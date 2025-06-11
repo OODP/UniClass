@@ -2,6 +2,7 @@ package app.state.staff;
 
 import app.Auth;
 import app.StaffContext;
+import app.UserManager;
 
 public class PendingState implements StaffState {
     @Override
@@ -14,6 +15,7 @@ public class PendingState implements StaffState {
         context.setState(new ApprovedState());
         // userDB에 staff 등록
         Auth.userDB.put(context.getStaff().getId(), context.getStaff());
+        UserManager.getInstance().addStaff(context.getStaff());
         System.out.println("승인 완료!");
     }
 
