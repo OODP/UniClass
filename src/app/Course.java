@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -82,4 +83,5 @@ public class Course {
     public List<Grade> getGradeList() {
         return gradeList;
     }
+
 }

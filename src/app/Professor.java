@@ -27,6 +27,7 @@ public class Professor extends User {
         invoker.setCommand(6, new HandleWaitingListCommand(courseManager, this));
         invoker.setCommand(7, new InputStudentGradeCommand(courseManager, this));
         invoker.setCommand(8, new ModifyStudentGradeCommand(courseManager, this));
+        invoker.setCommand(9,new StatisticsMenuCommand(courseManager, this));
 
         while (true) {
             System.out.println("\n================ 교수 메뉴 =================");
@@ -38,14 +39,15 @@ public class Professor extends User {
             System.out.println(" 6. 🧑‍🎓 학생 대기 신청 목록 확인 및 처리");
             System.out.println(" 7. 💯 학생 성적 입력");
             System.out.println(" 8. 📝 학생 성적 수정");
-            System.out.println(" 9. 🔒 로그아웃");
+            System.out.println(" 9. 📊 통계 메뉴");
+            System.out.println("10. 🔒 로그아웃");
             System.out.println("============================================");
-            System.out.print("👉 선택하세요 (0-6): ");
+            System.out.print("👉 선택하세요 (0-10): ");
 
             int choice = sc.nextInt();
             System.out.println();
 
-            if (choice == 9) {
+            if (choice == 10) {
                 System.out.println("👋 로그아웃합니다...");
                 return;
             }
