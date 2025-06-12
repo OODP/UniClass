@@ -14,11 +14,6 @@ abstract public class User {
         this.uniqueId = uniqueId;
     }
 
-    // 템플릿 메소드 패턴
-    public final void userTemplate() {
-        showMenu();
-    }
-
     //메뉴 보여주기
     protected abstract void showMenu();
 

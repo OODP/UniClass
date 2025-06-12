@@ -219,7 +219,6 @@ public class CourseManager {
         String courseId = sc.next();
 
         for (Course course : openedCourses) {
-            System.out.println("디버깅: openedCourses에서 찾는 중 - " + course.getCourseId());
             if (course.getCourseId().equals(courseId)) {
                 student.getMyWaitingCourseList().add(course);
                 course.getWaitingStudentList().add(student);
