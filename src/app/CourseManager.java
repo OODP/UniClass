@@ -427,5 +427,19 @@ public class CourseManager {
         }
     }
 
+    //-----------------------Iteration 4 -------------------
+
+    public List<Student> getEnrolledStudents(Course course) {
+        List<Student> enrolledStudents = new ArrayList<>();
+        // 모든 학생을 순회하며 해당 과목을 수강 중인 학생을 찾음
+        for (Student student : UserManager.getInstance().findAllStudents()) {
+            if (student.getMyCourseList().contains(course)) {
+                enrolledStudents.add(student);
+            }
+        }
+        return enrolledStudents;
+    }
 
 }
+
+
