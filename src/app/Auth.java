@@ -1,5 +1,7 @@
 package app;
 
+import app.factory.*;
+
 import java.util.*;
 
 public class Auth {
@@ -8,10 +10,15 @@ public class Auth {
 
     // 초기 data
     static {
-        userDB.put("prof", new Professor("prof", "1234", "교수 A", "P001"));
-        userDB.put("staff", new Staff("staff", "1234", "교직원 A", "S001"));
-        userDB.put("student", new Student("student", "1234", "학생 A", "22100434"));
-        userDB.put("manager", new Manager("manager", "1234", "매니저 A", "M001"));
+        UserFactory studentFactory = new StudentFactory();
+        UserFactory professorFactory = new ProfessorFactory();
+        UserFactory staffFactory = new StaffFactory();
+        UserFactory managerFactory = new ManagerFactory(); // ManagerFactory도 만들어야 함
+
+        userDB.put("prof", professorFactory.createUser("prof", "1234", "교수 A", "P001"));
+        userDB.put("staff", staffFactory.createUser("staff", "1234", "교직원 A", "S001"));
+        userDB.put("student", studentFactory.createUser("student", "1234", "학생 A", "22100434"));
+        userDB.put("manager", managerFactory.createUser("manager", "1234", "매니저 A", "M001"));
 
         // UserManager 인스턴스 생성
         UserManager um = UserManager.getInstance();
@@ -100,28 +107,35 @@ public class Auth {
         UserManager um = UserManager.getInstance();
         User newUser = null;
         switch (type) {
-            case 1:
-                newUser = new Student(id, pw, name, uid);
+            case 1: { // 학생
+                UserFactory factory = new StudentFactory();
+                newUser = factory.createUser(id, pw, name, uid);
                 userDB.put(id, newUser);
                 um.addStudent((Student) newUser);
                 System.out.println("회원가입이 완료되었습니다!");
                 break;
-            case 2:
-                newUser = new Professor(id, pw, name, uid);
+            }
+            case 2: { // 교수
+                UserFactory factory = new ProfessorFactory();
+                newUser = factory.createUser(id, pw, name, uid);
                 userDB.put(id, newUser);
                 um.addProfessor((Professor) newUser);
                 System.out.println("회원가입이 완료되었습니다!");
                 break;
-            case 3:
-                Staff staff = new Staff(id, pw, name, uid);
-                StaffContext ctx = new StaffContext(staff);
+            }
+            case 3: { // 스태프
+                UserFactory factory = new StaffFactory();
+                newUser = factory.createUser(id, pw, name, uid);
+                StaffContext ctx = new StaffContext((Staff) newUser);
                 StaffList.add(ctx);
                 System.out.println("승인 요청이 접수되었습니다. 관리자의 승인을 기다려주세요.");
                 break;
+            }
             default:
                 System.out.println("잘못된 선택입니다.");
                 return;
         }
+
     }
 
 
