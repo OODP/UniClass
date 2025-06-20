@@ -2,6 +2,7 @@ package app;
 
 import app.commands.student.*;
 import app.invokers.StudentCommandInvoker;
+import app.observer.EnrollmentStatistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class Student extends User {
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
         StudentCommandInvoker invoker = new StudentCommandInvoker();
+        EnrollmentStatistics stats = new EnrollmentStatistics();
+        courseManager.addObserver(stats); // 통계 관찰자 등록
 
         invoker.setCommand(1, new ViewOpenedCoursesCommand(courseManager));
         invoker.setCommand(2, new SearchCourseCommand(courseManager));

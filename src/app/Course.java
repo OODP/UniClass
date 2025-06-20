@@ -10,15 +10,18 @@ public class Course {
     private String courseName;
     private int credit;
     private int participants;
+    // 등록한 학생 수
+    private int registeredStudents;
     private final Professor professor;
     private final List<Student> waitingStudentList = new ArrayList<>();
     private final List<Grade> gradeList = new ArrayList<>();
 
-    public Course(String courseId, String courseName, int credit, int participants, Professor professor) {
+    public Course(String courseId, String courseName, int credit, int participants, int registeredStudents, Professor professor) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.credit = credit;
         this.participants = participants;
+        this.registeredStudents = registeredStudents;
         this.professor = professor;
     }
 
@@ -43,6 +46,10 @@ public class Course {
         return participants;
     }
 
+    public int getRegisteredStudents() {
+        return registeredStudents;
+    }
+
     public Professor getProfessor() {
         return professor;
     }
@@ -58,6 +65,10 @@ public class Course {
 
     public void setParticipants(int participants) {
         this.participants = participants;
+    }
+
+    public void setRegisteredStudents(int registeredStudents) {
+        this.registeredStudents = registeredStudents;
     }
 
     // 과목에 학생 추가
