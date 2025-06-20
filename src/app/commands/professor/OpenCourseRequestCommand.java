@@ -31,7 +31,7 @@ public class OpenCourseRequestCommand implements Command {
         int credit = sc.nextInt();
         System.out.print(" - 수강 인원 입력: ");
         int participants = sc.nextInt();
-        courseManager.requestOpenCourse(courseId, courseName, credit, participants, professor);
+        courseManager.requestOpenCourse(courseId, courseName, credit, participants, 0, professor);
         System.out.println("✅ 과목 개설 신청 완료!");
 
     }

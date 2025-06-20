@@ -1,5 +1,7 @@
 package app;
 
+import app.observer.CourseObserver;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -8,6 +10,7 @@ public class CourseManager {
 
     private static final List<Course> pendingCourses = new ArrayList<>(); // 개설 검토중인 과목 리스트
     private static final List<Course> openedCourses = new ArrayList<>(); // 개설된 과목 리스트
+    private final List<CourseObserver> observers = new ArrayList<>(); // 옵저버 패턴을 위한 리스트
 
     //singleton pattern -> instance 생성
     private static CourseManager instance = new CourseManager();
@@ -22,16 +25,16 @@ public class CourseManager {
     // 초기 과목 개설 리스트 설정
     static {
         Professor professor = new Professor("prof", "1234", "교수 A", "P001");
-        Course course1 = new Course("CS101", "운영체재", 3, 30, professor);
+        Course course1 = new Course("CS101", "운영체재", 3, 30, 0, professor);
         openedCourses.add(course1);
-        Course course2 = new Course("CS102", "알고리즘", 3, 30, professor);
+        Course course2 = new Course("CS102", "알고리즘", 3, 30, 0, professor);
         openedCourses.add(course2);
     }
 
     // --------------------Iteration 1 -------------------
     // 과목 개설 요청 -> 교수님
-    public void requestOpenCourse(String courseId, String courseName, int credit, int participants, Professor professor) {
-        Course course = new Course(courseId, courseName, credit, participants, professor);
+    public void requestOpenCourse(String courseId, String courseName, int credit, int participants, int registeredStudents, Professor professor) {
+        Course course = new Course(courseId, courseName, credit, participants, registeredStudents, professor);
         pendingCourses.add(course);
     }
 
@@ -104,30 +107,49 @@ public class CourseManager {
         System.out.print(" - 수강 신청할 과목 코드 입력: ");
         String courseId = sc.next();
 
-        for (Course course : openedCourses) {
-            if (course.getCourseId().equals(courseId)) {
-                student.getMyCourseList().add(course);
-                break;
-            }
+        Course course = openedCourses.stream()
+                .filter(targetCourse -> targetCourse.getCourseId().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+        if (course != null) {
+            student.getMyCourseList().add(course);
+            course.setRegisteredStudents(course.getRegisteredStudents() + 1);
+            enrollStudent(student); // Observer 패턴을 위한 메소드 호출
+            System.out.println("✅ 수강 신청 완료!");
+        } else {
+            System.out.println("❗ 잘못된 과목 코드입니다.");
         }
-        System.out.println("✅ 수강 신청 완료!");
     }
 
     // 수강 취소 -> 학생
     public void cancelCourse(Student student) {
         Scanner sc = new Scanner(System.in);
-        List<Course> myCourseList = viewMyCourseList(student);
+        List<Course> myCourseList = student.getMyCourseList();
+        viewOpenedCourses();
+
+        if (myCourseList.isEmpty()) {
+            System.out.println("⚠️ 수강 신청한 과목이 없습니다.");
+            return;
+        }
 
         System.out.print(" - 수강 취소할 과목 코드 입력: ");
         String courseId = sc.next();
 
+        boolean found = false;
         for (Course course : myCourseList) {
             if (course.getCourseId().equals(courseId)) {
-                viewMyCourseList(student).remove(course);
+                myCourseList.remove(course);
+                course.setRegisteredStudents(course.getRegisteredStudents() - 1);
+                cancelEnrollment(student); // Observer 패턴을 위한 메소드 호출
+                System.out.println("✅ 수강 취소 완료!");
+                found = true;
                 break;
             }
         }
-        System.out.println("✅ 수강 취소 완료!");
+        if (!found) {
+            System.out.println("❗ 잘못된 과목 코드입니다.");
+        }
     }
 
     // 개설된 과목 조회 -> 전체 메뉴
@@ -377,7 +399,7 @@ public class CourseManager {
         }
 
         System.out.print("과목 번호 선택: ");
-        int index = sc.nextInt()-1;
+        int index = sc.nextInt() - 1;
         if (index < 0 || index >= myCourses.size()) {
             System.out.println("❗ 잘못된 선택입니다.");
             return;
@@ -439,6 +461,36 @@ public class CourseManager {
         return enrolledStudents;
     }
 
+    public List<Course> getCourses() {
+        return openedCourses;
+    }
+
+    //---------------------- Observer Pattern -------------------
+    public void addObserver(CourseObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(CourseObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (CourseObserver observer : observers) {
+            observer.onEnrollmentChanged(this);
+        }
+    }
+
+    public void enrollStudent(Student student) {
+        // 수강 신청 로직...
+        notifyObservers();
+    }
+
+    public void cancelEnrollment(Student student) {
+        // 수강 취소 로직...
+        notifyObservers();
+    }
+
+    //----------------------------------------------------------
 }
 
 
