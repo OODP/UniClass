@@ -1,5 +1,9 @@
 package app;
 
+import app.decorator.BasicCourseListDisplay;
+import app.decorator.CourseListDisplay;
+import app.decorator.DetailedCourseDisplay;
+import app.decorator.NumberedCourseDisplay;
 import app.observer.CourseObserver;
 
 import java.util.ArrayList;
@@ -154,14 +158,38 @@ public class CourseManager {
 
     // 개설된 과목 조회 -> 전체 메뉴
     public void viewOpenedCourses() {
+        System.out.println("1. [개설된 과목 목록] - 기본 보기");
+        System.out.println("2. [개설된 과목 목록] - 상세 보기");
+        System.out.println("3. [개설된 과목 목록] - 번호 매기기 보기");
+        System.out.print("👉 개설된 과목 목록 보기 방식을 선택하세요 (1-3): ");
+        Scanner sc = new Scanner(System.in);
+        int choice = sc.nextInt();
+
+        CourseListDisplay basic = new BasicCourseListDisplay();
+
+        switch (choice) {
+            case 1:
+                System.out.println("🔷 [개설된 과목 목록] - 기본 보기");
+                basic.display(openedCourses);
+                break;
+            case 2:
+                System.out.println("🔷 [개설된 과목 목록] - 상세 보기");
+                CourseListDisplay detailed = new DetailedCourseDisplay(basic);
+                detailed.display(openedCourses);
+                break;
+            case 3:
+                System.out.println("🔷 [개설된 과목 목록] - 번호 매기기 보기");
+                CourseListDisplay numbered = new NumberedCourseDisplay(basic);
+                numbered.display(openedCourses);
+                break;
+            default:
+                System.out.println("❗ 잘못된 선택입니다.");
+        }
         if (openedCourses.isEmpty()) {
             System.out.println("⚠️ 개설된 과목이 없습니다.");
             return;
         }
-        for (Course course : openedCourses) {
-            System.out.println(" - " + course.getCourseId() + ": " + course.getCourseName() +
-                    " (" + course.getCredit() + "학점, " + course.getParticipants() + "명 수강 가능)");
-        }
+
     }
 
 
